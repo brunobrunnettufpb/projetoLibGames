@@ -17,11 +17,15 @@ public class SystemLibGames implements ISystemLibGames {
 
     public boolean gameBuy() {
         //TODO: Função para usuário comprar um jogo.
+        //TODO: Verificar se o usuário tem saldo disponível, subtrair o saldo e adicionar no Map<>
+
         return false;
     }
 
     public boolean gameRefund() {
         //TODO: Função para usuário devolver um jogo, caso não tenha passado 7 dias.
+        //TODO: Remover do Map<> e adicionar o valor pago de volta ao usuário.
+
         return false;
     }
 

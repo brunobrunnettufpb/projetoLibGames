@@ -4,17 +4,17 @@ import java.util.*;
 
 public class User {
     private int id;
-    private String username;
     private String name;
     private Date birthday;
+    private String username;
     private Value balance;
     private List<Game> games;
 
     public User(int id, String username, String name, Date birthday, Value balance, List<Game> games) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.birthday = birthday;
+        this.username = username;
         this.balance = balance;
         this.games = games;
     }

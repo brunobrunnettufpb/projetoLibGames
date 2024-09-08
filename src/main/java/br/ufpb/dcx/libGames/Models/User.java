@@ -8,9 +8,9 @@ public class User {
     private Date birthday;
     private String username;
     private Value balance;
-    private List<Game> games;
+    private HashMap<Integer, Game> games;
 
-    public User(int id, String username, String name, Date birthday, Value balance, List<Game> games) {
+    public User(int id, String username, String name, Date birthday, Value balance, HashMap<Integer, Game> games) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -20,7 +20,7 @@ public class User {
     }
 
     public User() {
-        this(1, "", "", new Date(1900, Calendar.JANUARY, 1), new Value(0.0,"BRL", "R$"), new ArrayList<>());
+        this(1, "", "", new Date(1900, Calendar.JANUARY, 1), new Value(0.0,"BRL", "R$"), new HashMap<Integer, Game>());
     }
 
     public String getUsername() {
@@ -51,11 +51,11 @@ public class User {
         this.balance = balance;
     }
 
-    public List<Game> getGames() {
+    public HashMap<Integer, Game> getGames() {
         return games;
     }
     public boolean addGame(Game game) {
-        this.games.add(game);
+        this.games.put(game.getId(), game);
         return true;
     }
     public boolean remGame(Game game) {

@@ -1,7 +1,11 @@
 package br.ufpb.dcx.libGames.Controllers;
 
 public interface ISystemLibGames {
-    boolean createUser(String name, String username, String birthday);
-    boolean deleteUser(String username);
+    boolean userCreate();
+    boolean userDelete();
+    void userReport();
 
+    boolean gameBuy();
+    boolean gameRefund();
+    void gameReport();
 }

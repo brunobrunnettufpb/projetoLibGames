@@ -1,5 +1,6 @@
 package br.ufpb.dcx.libGames.Models;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class Game {
@@ -7,8 +8,9 @@ public class Game {
     private String name;
     private String category;
     private Value price;
+    private Date launch;
 
-    public Game(int id, String name, String category, Value price) {
+    public Game(int id, String name, String category, Value price, Date launch) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -43,6 +45,14 @@ public class Game {
         this.price = price;
     }
 
+    public Date getLaunch() {
+        return launch;
+    }
+
+    public void setLaunch(Date launch) {
+        this.launch = launch;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,6 +72,6 @@ public class Game {
 
     @Override
     public String toString() {
-        return String.format("Jogo de ID {} possui o nome {} pertence a categoria {} e custa {}", id, name, category, price.getValue());
+        return String.format("Jogo de ID {} possui o nome {}, pertence a categoria {}, foi lançado em {} e custa {}", id, name, category, launch.toString(), price.getValue());
     }
 }

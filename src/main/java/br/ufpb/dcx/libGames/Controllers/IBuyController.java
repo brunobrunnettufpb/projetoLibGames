@@ -6,6 +6,6 @@ import br.ufpb.dcx.libGames.Models.User;
 
 public interface IBuyController {
     boolean BuyGame(User user, Game game, Value price);
-    boolean refundGame(User user, Game game, Value price);
+    boolean RefundGame(User user, Game game, Value price);
 
 }

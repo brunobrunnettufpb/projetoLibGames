@@ -5,6 +5,10 @@ import java.awt.*;
 import java.util.Dictionary;
 
 public class LibGamesProgramGUI {
+
+    //TODO: Menu à esquerda com os dados do usuário
+    //TODO: Menu à direita com os dados do jogo
+
     private JFrame dialog = new JFrame("Biblioteca de Jogos");
 
     public LibGamesProgramGUI() {
@@ -42,5 +46,23 @@ public class LibGamesProgramGUI {
 
     public void setVisible(boolean b) {
         dialog.setVisible(b);
+    }
+
+    private JMenuBar createMenuBar(String[] menuNames, Dictionary<String, String[]> menuItemNames) {
+        JMenuBar menuBar = new JMenuBar();
+
+        for (String menuName : menuNames) {
+            JMenu menu = new JMenu(menuName);
+
+            if (menuItemNames != null) {
+                for (String itemName : menuItemNames.get(menuName)) {
+                    JMenuItem item = new JMenuItem(itemName);
+                    menu.add(item);
+                }
+                menuBar.add(menu);
+            }
+        }
+
+        return menuBar;
     }
 }

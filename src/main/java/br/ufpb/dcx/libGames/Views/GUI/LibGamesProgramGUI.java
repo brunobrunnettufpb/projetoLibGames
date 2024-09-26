@@ -2,7 +2,9 @@ package br.ufpb.dcx.libGames.Views.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class LibGamesProgramGUI {
 
@@ -14,7 +16,9 @@ public class LibGamesProgramGUI {
     public LibGamesProgramGUI() {
         configDialog();
 
-        JMenu menuArquivo = new JMenu("Arquivo");
+
+
+        /*JMenu menuArquivo = new JMenu("Arquivo");
         JMenuItem menuArquivoSair = new JMenuItem("Sair");
         menuArquivo.add(menuArquivoSair);
 
@@ -29,7 +33,13 @@ public class LibGamesProgramGUI {
 
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(menuArquivo);
-        menuBar.add(menuUser);
+        menuBar.add(menuUser);*/
+
+        String[] menuNames = {"Arquivo", "Usuário"};
+        Hashtable<String, String> menuItemNames = new Hashtable<>();
+        menuItemNames.put("Arquivo", );
+
+        JMenuBar menuBar = createMenuBar(menuNames, menuItemNames);
 
         dialog.setJMenuBar(menuBar);
 

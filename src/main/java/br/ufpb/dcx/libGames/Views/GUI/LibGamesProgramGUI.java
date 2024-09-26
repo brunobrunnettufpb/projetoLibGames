@@ -14,12 +14,13 @@ public class LibGamesProgramGUI {
         menuArquivo.add(menuArquivoSair);
 
         JMenu menuUser = new JMenu("Usuário");
-        JMenuItem menuUserCadastrar = new JMenuItem("Cadastrar");
+
+        /*JMenuItem menuUserCadastrar = new JMenuItem("Cadastrar");
         JMenuItem menuUserDeletar = new JMenuItem("Deletar");
         JMenuItem menuUserRelatorio = new JMenuItem("Relatório");
         menuUser.add(menuUserCadastrar);
         menuUser.add(menuUserDeletar);
-        menuUser.add(menuUserRelatorio);
+        menuUser.add(menuUserRelatorio);*/
 
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(menuArquivo);
@@ -40,5 +41,18 @@ public class LibGamesProgramGUI {
 
     public void setVisible(boolean b) {
         dialog.setVisible(b);
+    }
+
+    private JMenu createMenuBar(JMenu menuBar, String menuBarName, String[] menusName, String[] menusItens) {
+        menuBar = new JMenu(menuBarName);
+
+        for (String name: menusName) {
+            JMenuItem menuName = new JMenuItem(name);
+            menuBar.add(name);
+        }
+
+fgjdfklhjkfdjkhfh
+
+        return menuBar;
     }
 }

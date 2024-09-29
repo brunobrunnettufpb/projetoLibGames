@@ -4,13 +4,14 @@ import br.ufpb.dcx.libGames.Controllers.UserController;
 import br.ufpb.dcx.libGames.Controllers.BuyController;
 import br.ufpb.dcx.libGames.Exceptions.UsuarioJaExisteException;
 import br.ufpb.dcx.libGames.Exceptions.UsuarioNaoExisteException;
+import br.ufpb.dcx.libGames.Models.Game;
 import br.ufpb.dcx.libGames.Models.User;
 import br.ufpb.dcx.libGames.Models.Value;
 
 public class SystemLibGames implements ISystemLibGames {
     private UserController users;
     private BuyController boughts;
-
+    private GameController games;
 
     public SystemLibGames() {
         users = new UserController();
@@ -41,9 +42,16 @@ public class SystemLibGames implements ISystemLibGames {
         //TODO: Função para exibir tudo o que o usuário tem.
     }
 
-    public boolean gameBuy() {
+    public boolean gameBuy(User user, Game game) throws UsuarioNaoExisteException {
         //TODO: Função para usuário comprar um jogo.
         //TODO: Verificar se o usuário tem saldo disponível, subtrair o saldo e adicionar no Map<>
+
+        if (!users.checkExistsUser(user.getUsername())) {
+            throw new UsuarioNaoExisteException("Usuário não cadastrado!");
+        }
+
+        user.addGame(game);
+        users.updateUser(user);
 
         return false;
     }

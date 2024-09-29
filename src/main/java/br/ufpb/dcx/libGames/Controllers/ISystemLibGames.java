@@ -8,7 +8,7 @@ public interface ISystemLibGames {
     boolean userDelete(String username) throws UsuarioNaoExisteException;
     void userReport() throws UsuarioNaoExisteException;
 
-    boolean gameBuy() throws UsuarioNaoExisteException;
+//    boolean gameBuy() throws UsuarioNaoExisteException;
     boolean gameRefund() throws UsuarioNaoExisteException;
     void gameReport();
 }

@@ -16,8 +16,6 @@ public class BuyController implements IBuyController {
 	public boolean BuyGame(User user, Game game, Value price) {
 		int lastBuyId = boughts.size()+1;
 
-
-
 		return true;
 	}
 

@@ -18,6 +18,13 @@ public class UserController implements IUserController {
         }
         throw new UsuarioJaExisteException("Usuário já cadastrado!");
     }
+    public boolean updateUser(User user) throws UsuarioNaoExisteException {
+        if (checkExistsUser(user.getName())) {
+            users.replace(user.getUsername(), user);
+            return true;
+        }
+        throw new UsuarioNaoExisteException("Usuário não cadastrado!");
+    }
     public boolean deleteUser(User user) throws UsuarioNaoExisteException {
         if (!checkExistsUser(user.getName())) {
             users.remove(user.getName());
@@ -49,7 +56,7 @@ public class UserController implements IUserController {
     }
 
 
-    private boolean checkExistsUser(String username) {
+    public boolean checkExistsUser(String username) {
         return users.get(username) == null;
     }
 }

@@ -20,9 +20,13 @@ public class LibGamesProgramGUI {
         selectedGame = null;
         system = new SystemLibGames();
 
+
         createDialog();
         createMenuBar();
         createLayout();
+
+        Game game = system.get
+        showGame(game);
     }
 
     public void createDialog() {
@@ -300,5 +304,14 @@ public class LibGamesProgramGUI {
         this.cBoxUserGames.removeAllItems();
 
     }
+    private void showGame(Game game) {
+        clearGame();
+        this.tBoxGameName.setText(game.getName());
+        this.tBoxGameValue.setText(String.format("%s%.2f", game.getPrice().getSymbol(), game.getPrice().getValue()));
 
+    }
+    private void clearGame() {
+        this.tBoxGameName.setText("");
+        this.tBoxGameValue.setText("");
+    }
 }

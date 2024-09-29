@@ -36,8 +36,10 @@ public class LibGamesProgramGUI {
         menuBar.add(menuUser);*/
 
         String[] menuNames = {"Arquivo", "Usuário"};
-        Hashtable<String, String> menuItemNames = new Hashtable<>();
-        menuItemNames.put("Arquivo", );
+        Hashtable<String, String[]> menuItemNames = new Hashtable<>();
+
+        menuItemNames.put("Arquivo", new String[] {"Sair"});
+        menuItemNames.put("Usuário", new String[] {"Novo", "Apagar"});
 
         JMenuBar menuBar = createMenuBar(menuNames, menuItemNames);
 

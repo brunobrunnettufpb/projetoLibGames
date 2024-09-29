@@ -1,16 +1,55 @@
 package br.ufpb.dcx.libGames.Controllers;
 
+import br.ufpb.dcx.libGames.Exceptions.UsuarioJaExisteException;
+import br.ufpb.dcx.libGames.Exceptions.UsuarioNaoExisteException;
 import br.ufpb.dcx.libGames.Models.User;
+import br.ufpb.dcx.libGames.Models.Value;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserController implements IUserController {
-    private Map<Integer, User> users;
+    private Map<String, User> users = new HashMap<>();
 
-    public boolean createUser(String name, String username, String birthday) {
-        return false;
+    public boolean createUser(User user) throws UsuarioJaExisteException {
+        if (checkExistsUser(user.getName())) {
+            users.put(user.getName(), user);
+            return true;
+        }
+        throw new UsuarioJaExisteException("Usuário já cadastrado!");
     }
-    public boolean deleteUser(String username) {
-        return false;
+    public boolean deleteUser(User user) throws UsuarioNaoExisteException {
+        if (!checkExistsUser(user.getName())) {
+            users.remove(user.getName());
+            return true;
+        }
+        throw new UsuarioNaoExisteException("Usuário não cadastrado!");
+    }
+
+    public User getUser(String username) {
+        return users.get(username);
+    }
+
+    public boolean addFund(User user, Value value) throws UsuarioNaoExisteException {
+        if (!checkExistsUser(user.getName())) {
+            throw new UsuarioNaoExisteException("Usuário não cadastrado!");
+        }
+
+        users.get(user.getName()).addBalance(value);
+        return true;
+    }
+
+    public boolean remFund(User user, Value value) throws UsuarioNaoExisteException {
+        if (!checkExistsUser(user.getName())) {
+            throw new UsuarioNaoExisteException("Usuário não cadastrado!");
+        }
+
+        users.get(user.getName()).remBalance(value);
+        return true;
+    }
+
+
+    private boolean checkExistsUser(String username) {
+        return users.get(username) == null;
     }
 }

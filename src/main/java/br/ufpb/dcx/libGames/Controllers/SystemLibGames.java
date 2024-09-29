@@ -1,14 +1,39 @@
 package br.ufpb.dcx.libGames.Controllers;
 
+import br.ufpb.dcx.libGames.Controllers.UserController;
+import br.ufpb.dcx.libGames.Controllers.BuyController;
+import br.ufpb.dcx.libGames.Exceptions.UsuarioJaExisteException;
+import br.ufpb.dcx.libGames.Exceptions.UsuarioNaoExisteException;
+import br.ufpb.dcx.libGames.Models.User;
+import br.ufpb.dcx.libGames.Models.Value;
+
 public class SystemLibGames implements ISystemLibGames {
-    public boolean userCreate() {
-        //TODO: Função para criar um usuário.
-        return false;
+    private UserController users;
+    private BuyController boughts;
+
+    public SystemLibGames() {
+        users = new UserController();
+        boughts = new BuyController();
+    }
+    public boolean userCreate(String name, String username, double saldo) throws UsuarioJaExisteException {
+        if (users.getUser(username) == null) {
+            users.createUser(new User(name, username, new Value(saldo, "BRL", "R$")));
+            return true;
+        }
+
+        throw new UsuarioJaExisteException("Usuário já cadastrado!");
     }
 
-    public boolean userDelete() {
-        //TODO: Função para deletar um usuário.
-        return false;
+    public boolean userDelete(String username) throws UsuarioNaoExisteException {
+        if (users.getUser(username) != null) {
+            users.deleteUser(new User("", username, new Value(0, "BRL", "R$")));
+            return true;
+        }
+        throw new UsuarioNaoExisteException("Usuário não cadastrado!");
+    }
+
+    public User getUser(String username) throws UsuarioNaoExisteException {
+        return users.getUser(username);
     }
 
     public void userReport() {

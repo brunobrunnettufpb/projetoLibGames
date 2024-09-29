@@ -8,10 +8,9 @@ public class User {
     private Date birthday;
     private String username;
     private Value balance;
-    private HashMap<Integer, Game> games;
+    private HashMap<String, Game> games;
 
-    public User(int id, String username, String name, Date birthday, Value balance, HashMap<Integer, Game> games) {
-        this.id = id;
+    public User(String username, String name, Date birthday, Value balance, HashMap<String, Game> games) {
         this.name = name;
         this.birthday = birthday;
         this.username = username;
@@ -19,8 +18,12 @@ public class User {
         this.games = games;
     }
 
+    public User(String username, String name, Value balance) {
+        this(username, name, new Date(1900, Calendar.JANUARY, 1), balance, new HashMap<String, Game>());
+    }
+
     public User() {
-        this(1, "", "", new Date(1900, Calendar.JANUARY, 1), new Value(0.0,"BRL", "R$"), new HashMap<Integer, Game>());
+        this("", "", new Date(1900, Calendar.JANUARY, 1), new Value(0.0,"BRL", "R$"), new HashMap<String, Game>());
     }
 
     public String getUsername() {
@@ -50,24 +53,32 @@ public class User {
     public void setBalance(Value balance) {
         this.balance = balance;
     }
+    public boolean addBalance(Value value) {
+        this.balance.setValue(this.balance.getValue() + value.getValue());
+        return true;
+    }
+    public boolean remBalance(Value value) {
+        if (this.balance.getValue()-value.getValue() < 0) {
+            return false;
+        }
 
-    public HashMap<Integer, Game> getGames() {
+        this.balance.setValue(this.balance.getValue() - value.getValue());
+        return true;
+    }
+
+    public Game getGame(String gameName) {
+        return this.games.get(gameName);
+    }
+    public HashMap<String, Game> getGames() {
         return games;
     }
     public boolean addGame(Game game) {
-        this.games.put(game.getId(), game);
+        this.games.put(game.getName(), game);
         return true;
     }
     public boolean remGame(Game game) {
         this.games.remove(game);
         return true;
-    }
-
-    public void addBalance(int value) {
-        this.balance.setValue(this.balance.getValue() + value);
-    }
-    public void remBalance(int value) {
-        this.balance.setValue(this.balance.getValue() - value);
     }
 
     @Override

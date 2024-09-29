@@ -1,5 +1,7 @@
 package br.ufpb.dcx.libGames.Views.GUI;
 
+import br.ufpb.dcx.libGames.Controllers.SystemLibGames;
+import br.ufpb.dcx.libGames.Exceptions.UsuarioNaoExisteException;
 import br.ufpb.dcx.libGames.Models.Game;
 import br.ufpb.dcx.libGames.Models.User;
 
@@ -9,10 +11,15 @@ import java.util.HashMap;
 
 public class LibGamesProgramGUI {
     private JFrame dialog = new JFrame("Biblioteca de Jogos");
-    private User selectedUser = null;
-    private Game selectedGame = null;
+    private SystemLibGames system;
+    private User selectedUser;
+    private Game selectedGame;
 
     public LibGamesProgramGUI() {
+        selectedUser = null;
+        selectedGame = null;
+        system = new SystemLibGames();
+
         createDialog();
         createMenuBar();
         createLayout();
@@ -35,25 +42,26 @@ public class LibGamesProgramGUI {
      * Cria a barra de menus iterando os valores de menuNames e menuItemNames e já define no dialog
      */
     private void createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
+        menuBar = new JMenuBar();
 
-        String[] menuNames = {"Arquivo", "Usuário"};
-        HashMap<String, String[]> menuItemNames = new HashMap<>();
+        menuArquivo = new JMenu("Arquivo");
+        menuArquivoSair = new JMenuItem("Sair");
+        menuArquivoSair.addActionListener(a -> btnSair_Click());
+        menuArquivo.add(menuArquivoSair);
 
-        menuItemNames.put("Arquivo", new String[] {"Sair"});
-        menuItemNames.put("Usuário", new String[] {"Novo", "Apagar"});
+        menuUsuario = new JMenu("Usuário");
+        menuUsuarioCadastrar = new JMenuItem("Cadastrar");
+        menuUsuarioCadastrar.addActionListener(a -> cadastrarUsuario());
+        menuUsuarioBuscar = new JMenuItem("Buscar");
+        menuUsuarioBuscar.addActionListener(a -> buscarUsuario());
+        menuUsuarioApagar = new JMenuItem("Apagar");
+        menuUsuarioApagar.addActionListener(a -> apagarUsuario());
+        menuUsuario.add(menuUsuarioCadastrar);
+        menuUsuario.add(menuUsuarioBuscar);
+        menuUsuario.add(menuUsuarioApagar);
 
-        for (String menuName : menuNames) {
-            JMenu menu = new JMenu(menuName);
-
-            if (menuItemNames.containsKey(menuName)) {
-                for (String itemName : menuItemNames.get(menuName)) {
-                    JMenuItem item = new JMenuItem(itemName);
-                    menu.add(item);
-                }
-                menuBar.add(menu);
-            }
-        }
+        menuBar.add(menuArquivo);
+        menuBar.add(menuUsuario);
 
         dialog.setJMenuBar(menuBar);
     }
@@ -79,10 +87,10 @@ public class LibGamesProgramGUI {
 
             labUserName1 = new JLabel("Usuário:", JLabel.CENTER);
             tBoxUserName = new JTextField();
-            tBoxUserName.setEnabled(false);
+            tBoxUserName.setEditable(false);
             labUserBalance1 = new JLabel("Saldo:", JLabel.CENTER);
             tBoxUserBalance = new JTextField();
-            tBoxUserBalance.setEnabled(false);
+            tBoxUserBalance.setEditable(false);
             labUserGames = new JLabel("Jogos:", JLabel.CENTER);
             cBoxUserGames = new JComboBox<>();
             leftSide.add(labUserName1);
@@ -105,18 +113,16 @@ public class LibGamesProgramGUI {
             rightSide2.setBackground(Color.gray);
 
             gameImg = new ImageIcon(new ImageIcon(getImgPath("NONE")).getImage().getScaledInstance(190,190, Image.SCALE_SMOOTH));
-            btnGameImg = new JButton(gameImg);
-            btnGameImg.setBackground(Color.gray);
-            btnGameImg.setBorderPainted(false);
+            labGameImg = new JLabel(gameImg);
             labGameName = new JLabel("Jogo:", JLabel.CENTER);
             tBoxGameName = new JTextField("");
-            tBoxGameName.setEnabled(false);
+            tBoxGameName.setEditable(false);
             labGameValue = new JLabel("Valor:", JLabel.CENTER);
             tBoxGameValue = new JTextField("");
-            tBoxGameValue.setEnabled(false);
+            tBoxGameValue.setEditable(false);
             btnPrev = new JButton("Anterior");
             btnNext = new JButton("Próximo");
-            rightSide1.add(btnGameImg);
+            rightSide1.add(labGameImg);
             rightSide2.add(labGameName);
             rightSide2.add(tBoxGameName);
             rightSide2.add(labGameValue);
@@ -149,10 +155,6 @@ public class LibGamesProgramGUI {
         }
     }
 
-    public void showUser(User user) {
-
-    }
-
     private static String getImgPath(String game) {
         return "./imgs/"+game+".jpg";
 
@@ -161,6 +163,14 @@ public class LibGamesProgramGUI {
     ///////////////
     // COMPONENTES
     ///////////////
+    private JMenuBar menuBar;
+    private JMenu menuArquivo;
+    private JMenuItem menuArquivoSair;
+    private JMenu menuUsuario;
+    private JMenuItem menuUsuarioCadastrar;
+    private JMenuItem menuUsuarioBuscar;
+    private JMenuItem menuUsuarioApagar;
+
 
     private JPanel leftSide;
     private JPanel top;
@@ -170,23 +180,24 @@ public class LibGamesProgramGUI {
     private JPanel rightSide1;
     private JPanel rightSide2;
 
+
     private ImageIcon gameImg;
 
     private JLabel title;
     private JLabel labUserName1;
     private JLabel labUserBalance1;
     private JLabel labUserGames;
+    private JLabel labGameImg;
     private JLabel labGameName;
     private JLabel labGameValue;
 
-    private JComboBox<Game> cBoxUserGames;
+    private JComboBox<String> cBoxUserGames;
 
     private JTextField tBoxUserName;
     private JTextField tBoxUserBalance;
     private JTextField tBoxGameName;
     private JTextField tBoxGameValue;
 
-    private JButton btnGameImg;
     private JButton btnPrev;
     private JButton btnNext ;
     private JButton comprar;
@@ -195,11 +206,99 @@ public class LibGamesProgramGUI {
     ///////////
     // EVENTS
     ///////////
+    private void cadastrarUsuario() {
+        try {
+            String name = JOptionPane.showInputDialog("Digite o nome real do usuário:");
+            String username = JOptionPane.showInputDialog("Digite um nome de usuário:");
+            double balance = Double.parseDouble(JOptionPane.showInputDialog("Digite o saldo inicial deste usuário"));
+            system.userCreate(name, username, balance);
+            showUser(system.getUser(username));
+        }
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro: \n\n"+ex.getMessage());
+        }
+    }
+    private void buscarUsuario() {
+        try {
+            String username = JOptionPane.showInputDialog("Digite o nome de usuário:");
+            User found = system.getUser(username);
+            if (found != null) {
+                showUser(found);
+            }
+            else {
+                throw new UsuarioNaoExisteException("Usuário não cadastrado!");
+            }
+        }
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro: \n\n"+ex.getMessage());
+        }
+    }
+    private void apagarUsuario() {
+        try {
+            String username = tBoxUserName.getText();
+            if (username.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nenhum usuário selecionado!");
+                return;
+            }
+            if (JOptionPane.showConfirmDialog(null, String.format("Deseja apagar o usuário %s?", username), "Apagar Usuário", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (system.userDelete(username)) {
+                    JOptionPane.showMessageDialog(null, String.format("Usuário %s apagado com sucesso!", username));
+                    clearUser();
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Canelado!");
+            }
+        }
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro: \n\n"+ex.getMessage());
+        }
+    }
     private void btnComprar_Click() {
-        title.setText("COMPROU!");
+        try {
+
+        }
+        catch (Exception ex) {
+
+        }
     }
     private void btnSair_Click() {
         System.exit(0);
+    }
+    private void btnPrev_Click() {
+        try {
+
+        }
+        catch (Exception ex) {
+
+        }
+    }
+    private void btnNext_Click() {
+        try {
+
+        }
+        catch (Exception ex) {
+
+        }
+    }
+
+    ///////////////
+    // CONTROLLERS
+    ///////////////
+    private void showUser(User user) {
+        clearUser();
+        this.tBoxUserName.setText(user.getName());
+        this.tBoxUserBalance.setText(String.format("%s%.2f", user.getBalance().getSymbol(), user.getBalance().getValue()));
+
+        for(Game game: user.getGames().values()) {
+            cBoxUserGames.addItem(game.getName());
+        }
+    }
+    private void clearUser() {
+        this.tBoxUserName.setText("");
+        this.tBoxUserBalance.setText("");
+        this.cBoxUserGames.removeAllItems();
+
     }
 
 }

@@ -12,21 +12,13 @@ import java.util.HashMap;
 public class LibGamesProgramGUI {
     private JFrame dialog = new JFrame("Biblioteca de Jogos");
     private SystemLibGames system;
-    private User selectedUser;
-    private Game selectedGame;
 
     public LibGamesProgramGUI() {
-        selectedUser = null;
-        selectedGame = null;
         system = new SystemLibGames();
-
 
         createDialog();
         createMenuBar();
         createLayout();
-
-        Game game = system.get
-        showGame(game);
     }
 
     public void createDialog() {
@@ -125,7 +117,9 @@ public class LibGamesProgramGUI {
             tBoxGameValue = new JTextField("");
             tBoxGameValue.setEditable(false);
             btnPrev = new JButton("Anterior");
+            btnPrev.addActionListener(a -> btnPrev_Click());
             btnNext = new JButton("Próximo");
+            btnNext.addActionListener(a -> btnNext_Click());
             rightSide1.add(labGameImg);
             rightSide2.add(labGameName);
             rightSide2.add(tBoxGameName);
@@ -159,9 +153,8 @@ public class LibGamesProgramGUI {
         }
     }
 
-    private static String getImgPath(String game) {
+    private String getImgPath(String game) {
         return "./imgs/"+game+".jpg";
-
     }
 
     ///////////////
@@ -260,10 +253,25 @@ public class LibGamesProgramGUI {
     }
     private void btnComprar_Click() {
         try {
+            User selectedUser = system.getUser(tBoxUserName.getText());
 
+            if (selectedUser == null) {
+                JOptionPane.showMessageDialog(null, "Erro:\n\nSelecione um USUÁRIO!");
+                return;
+            }
+
+            Game selectedGame = system.getGame(tBoxGameName.getText());
+
+            if (selectedGame == null) {
+                JOptionPane.showMessageDialog(null, "Erro:\n\nSelecione um JOGO!");
+            }
+
+            system.gameBuy(selectedUser, selectedGame);
+            showUser(selectedUser);
+            JOptionPane.showMessageDialog(null, "Jogo comprado com sucesso!");
         }
         catch (Exception ex) {
-
+            JOptionPane.showMessageDialog(null, "Erro:\n\n"+ex.getMessage());
         }
     }
     private void btnSair_Click() {
@@ -271,7 +279,22 @@ public class LibGamesProgramGUI {
     }
     private void btnPrev_Click() {
         try {
+            int id = 2;
+            Game selectedGame = system.getGame(tBoxGameName.getText());
 
+            if (selectedGame != null) {
+                id = selectedGame.getId();
+            }
+
+            id--;
+
+            if (id < 1) {
+                JOptionPane.showMessageDialog(null, "Erro:\n\nEste é o primeiro jogo da lista!");
+                return;
+            }
+
+            selectedGame = system.getGame(id);
+            showGame(selectedGame);
         }
         catch (Exception ex) {
 
@@ -279,7 +302,22 @@ public class LibGamesProgramGUI {
     }
     private void btnNext_Click() {
         try {
+            int id = 0;
+            Game selectedGame = system.getGame(tBoxGameName.getText());
 
+            if (selectedGame != null) {
+                id = selectedGame.getId();
+            }
+
+            id++;
+
+            if (id > system.getQtdGames()) {
+                JOptionPane.showMessageDialog(null, "Erro:\n\nEste é o último jogo da lista!");
+                return;
+            }
+
+            selectedGame = system.getGame(id);
+            showGame(selectedGame);
         }
         catch (Exception ex) {
 
@@ -308,10 +346,11 @@ public class LibGamesProgramGUI {
         clearGame();
         this.tBoxGameName.setText(game.getName());
         this.tBoxGameValue.setText(String.format("%s%.2f", game.getPrice().getSymbol(), game.getPrice().getValue()));
-
+        this.labGameImg.setIcon(new ImageIcon(new ImageIcon(getImgPath(game.getName())).getImage().getScaledInstance(190,190, Image.SCALE_SMOOTH)));
     }
     private void clearGame() {
         this.tBoxGameName.setText("");
         this.tBoxGameValue.setText("");
+        this.labGameImg.setIcon(new ImageIcon(new ImageIcon(getImgPath("NONE")).getImage().getScaledInstance(190,190, Image.SCALE_SMOOTH)));
     }
 }

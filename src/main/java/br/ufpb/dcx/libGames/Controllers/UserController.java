@@ -5,6 +5,7 @@ import br.ufpb.dcx.libGames.Exceptions.UsuarioNaoExisteException;
 import br.ufpb.dcx.libGames.Models.User;
 import br.ufpb.dcx.libGames.Models.Value;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class UserController implements IUserController {
     private Map<String, User> users = new HashMap<>();
 
     public boolean createUser(User user) throws UsuarioJaExisteException {
-        if (checkExistsUser(user.getName())) {
+        if (!checkExistsUser(user.getName())) {
             users.put(user.getName(), user);
             return true;
         }
@@ -26,7 +27,7 @@ public class UserController implements IUserController {
         throw new UsuarioNaoExisteException("Usuário não cadastrado!");
     }
     public boolean deleteUser(User user) throws UsuarioNaoExisteException {
-        if (!checkExistsUser(user.getName())) {
+        if (checkExistsUser(user.getName())) {
             users.remove(user.getName());
             return true;
         }
@@ -57,6 +58,6 @@ public class UserController implements IUserController {
 
 
     public boolean checkExistsUser(String username) {
-        return users.get(username) == null;
+        return users.get(username) != null;
     }
 }

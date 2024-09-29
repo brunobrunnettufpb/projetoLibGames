@@ -11,6 +11,7 @@ public class SystemLibGames implements ISystemLibGames {
     private UserController users;
     private BuyController boughts;
 
+
     public SystemLibGames() {
         users = new UserController();
         boughts = new BuyController();

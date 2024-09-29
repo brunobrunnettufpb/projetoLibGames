@@ -10,7 +10,7 @@ public class Game {
     private Value price;
     private Date launch;
 
-    public Game(int id, String name, String category, Value price, Date launch) {
+    public Game(int id, String name, String category, Value price) {
         this.id = id;
         this.name = name;
         this.category = category;

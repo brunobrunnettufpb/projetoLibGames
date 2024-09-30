@@ -2,6 +2,7 @@ package br.ufpb.dcx.libGames.Controllers;
 
 import br.ufpb.dcx.libGames.Controllers.UserController;
 import br.ufpb.dcx.libGames.Controllers.BuyController;
+import br.ufpb.dcx.libGames.Exceptions.JogoJaCompradoException;
 import br.ufpb.dcx.libGames.Exceptions.SaldoInsuficienteException;
 import br.ufpb.dcx.libGames.Exceptions.UsuarioJaExisteException;
 import br.ufpb.dcx.libGames.Exceptions.UsuarioNaoExisteException;
@@ -55,13 +56,19 @@ public class SystemLibGames implements ISystemLibGames {
         //TODO: Função para exibir tudo o que o usuário tem.
     }
 
-    public boolean gameBuy(User user, Game game) throws UsuarioNaoExisteException, SaldoInsuficienteException {
+    public boolean gameBuy(User user, Game game) throws UsuarioNaoExisteException, SaldoInsuficienteException, JogoJaCompradoException {
         if (users.checkExistsUser(user.getUsername())) {
             throw new UsuarioNaoExisteException("Usuário não cadastrado!");
         }
 
         if (user.getBalance().getValue() < game.getPrice().getValue()) {
             throw new SaldoInsuficienteException("Saldo insuficiente!");
+        }
+
+        for (Game userGame: user.getGames().values()) {
+            if (userGame.equals(game)) {
+                throw new JogoJaCompradoException("Usuário já possui este jogo!");
+            }
         }
 
         user.remBalance(game.getPrice());

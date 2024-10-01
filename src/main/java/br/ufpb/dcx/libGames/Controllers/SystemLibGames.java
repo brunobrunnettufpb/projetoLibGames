@@ -1,7 +1,5 @@
 package br.ufpb.dcx.libGames.Controllers;
 
-import br.ufpb.dcx.libGames.Controllers.UserController;
-import br.ufpb.dcx.libGames.Controllers.BuyController;
 import br.ufpb.dcx.libGames.Exceptions.JogoJaCompradoException;
 import br.ufpb.dcx.libGames.Exceptions.SaldoInsuficienteException;
 import br.ufpb.dcx.libGames.Exceptions.UsuarioJaExisteException;
@@ -9,8 +7,6 @@ import br.ufpb.dcx.libGames.Exceptions.UsuarioNaoExisteException;
 import br.ufpb.dcx.libGames.Models.Game;
 import br.ufpb.dcx.libGames.Models.User;
 import br.ufpb.dcx.libGames.Models.Value;
-
-import javax.swing.*;
 
 public class SystemLibGames implements ISystemLibGames {
     private UserController users;

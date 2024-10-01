@@ -10,6 +10,7 @@ import java.util.Map;
 public class GameController {
     private Map<String, Game> games;
 
+    // TODO: Cadastrar, persistir e recuperar a lista de jogos.
     public GameController() {
         games = new LinkedHashMap<>();
         games.put("Witcher 3", new Game(games.size()+1, "Witcher 3", "Action RPG", new Value(30, "BRL", "R$")));
@@ -20,9 +21,11 @@ public class GameController {
     public Map<String, Game> getGames() {
         return this.games;
     }
+
     public Game getGame(String gameName) {
         return this.games.get(gameName);
     }
+
     public Game getGame(int id) {
         for (Game game: games.values()) {
             if (game.getId() == id) {
@@ -32,7 +35,14 @@ public class GameController {
 
         return null;
     }
+
     public int getQtdGames() {
         return this.games.size();
+    }
+
+    @Override
+    public String toString() {
+        // TODO: Relatório dos jogos cadastrados.
+        return "";
     }
 }

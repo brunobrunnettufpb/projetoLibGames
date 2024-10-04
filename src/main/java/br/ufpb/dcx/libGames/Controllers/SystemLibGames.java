@@ -17,8 +17,10 @@ public class SystemLibGames implements ISystemLibGames {
         users = new UserController();
         boughts = new BuyController();
         games = new GameController();
+
+
     }
-    public boolean userCreate(String name, String username, double saldo) throws UsuarioJaExisteException {
+    public boolean userCreate(String name, String username, double saldo) throws Exception {
         if (users.getUser(username) == null) {
             users.createUser(new User(name, username, new Value(saldo, "BRL", "R$")));
             return true;
@@ -52,7 +54,7 @@ public class SystemLibGames implements ISystemLibGames {
         //TODO: Função para exibir tudo o que o usuário tem.
     }
 
-    public boolean gameBuy(User user, Game game) throws UsuarioNaoExisteException, SaldoInsuficienteException, JogoJaCompradoException {
+    public boolean gameBuy(User user, Game game) throws Exception {
         if (users.checkExistsUser(user.getUsername())) {
             throw new UsuarioNaoExisteException("Usuário não cadastrado!");
         }

@@ -9,13 +9,15 @@ import java.util.Map;
 
 public class GameController {
     private Map<String, Game> games;
+    private GravadorDeDadosController gravador = new GravadorDeDadosController();
 
     // TODO: Cadastrar, persistir e recuperar a lista de jogos.
-    public GameController() {
+    public GameController() throws Exception {
         games = new LinkedHashMap<>();
         games.put("Witcher 3", new Game(games.size()+1, "Witcher 3", "Action RPG", new Value(30, "BRL", "R$")));
         games.put("Divinity 2", new Game(games.size()+1, "Divinity 2", "Turn Based RPG", new Value(25, "BRL", "R$")));
         games.put("Baldurs Gate 3", new Game(games.size()+1, "Baldurs Gate 3", "Turn Based RPG", new Value(200, "BRL", "R$")));
+        this.games = gravador.LoadGames();
     }
 
     public Map<String, Game> getGames() {

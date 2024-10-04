@@ -6,6 +6,6 @@ import br.ufpb.dcx.libGames.Models.User;
 
 public interface IUserController {
 
-    boolean createUser(User user) throws UsuarioJaExisteException;
-    boolean deleteUser(User user) throws UsuarioNaoExisteException;
+    boolean createUser(User user) throws Exception;
+    boolean deleteUser(User user) throws Exception;
 }

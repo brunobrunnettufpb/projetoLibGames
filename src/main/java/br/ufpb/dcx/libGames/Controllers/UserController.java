@@ -11,17 +11,35 @@ import java.util.Map;
 
 public class UserController implements IUserController {
     private Map<String, User> users = new HashMap<>();
+    private GravadorDeDadosController gravador = new GravadorDeDadosController();
 
-    public boolean createUser(User user) throws UsuarioJaExisteException {
+    public UserController() throws Exception {
+        this.users = gravador.LoadUsers();
+    }
+
+    public boolean createUser(User user) throws Exception {
         if (!checkExistsUser(user.getName())) {
             users.put(user.getName(), user);
+            try {
+                gravador.SaveUsers(this.users);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
             return true;
         }
         throw new UsuarioJaExisteException("Usuário já cadastrado!");
     }
-    public boolean updateUser(User user) throws UsuarioNaoExisteException {
+    public boolean updateUser(User user) throws Exception {
         if (checkExistsUser(user.getName())) {
             users.replace(user.getUsername(), user);
+            try {
+                gravador.SaveUsers(this.users);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+
             return true;
         }
         throw new UsuarioNaoExisteException("Usuário não cadastrado!");

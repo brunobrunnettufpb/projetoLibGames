@@ -1,8 +1,9 @@
 package br.ufpb.dcx.libGames.Models;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class User {
+public class User implements Serializable {
     private int id;
     private String name;
     private Date birthday;

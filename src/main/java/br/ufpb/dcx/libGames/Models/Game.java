@@ -1,9 +1,10 @@
 package br.ufpb.dcx.libGames.Models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Game {
+public class Game implements Serializable {
     private int id;
     private String name;
     private String category;

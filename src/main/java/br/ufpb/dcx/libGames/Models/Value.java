@@ -1,6 +1,8 @@
 package br.ufpb.dcx.libGames.Models;
 
-public class Value {
+import java.io.Serializable;
+
+public class Value implements Serializable {
     private double value;
     private String currency;
     private String symbol;

@@ -29,7 +29,7 @@ public class GravadorDeDadosController {
     }
 
     public Map<String, User> LoadUsers() throws Exception {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("./games.txt"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("./users.txt"))) {
             return (Map<String, User>) in.readObject();
         }
         catch (Exception ex) {

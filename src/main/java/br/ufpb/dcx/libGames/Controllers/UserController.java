@@ -10,11 +10,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserController implements IUserController {
-    private Map<String, User> users = new HashMap<>();
+    private Map<String, User> users;
     private GravadorDeDadosController gravador = new GravadorDeDadosController();
 
-    public UserController() throws Exception {
-        this.users = gravador.LoadUsers();
+    public UserController() {
+        try {
+            this.users = gravador.LoadUsers();
+        }
+        catch (Exception ex) {
+            this.users = new HashMap<>();
+        }
     }
 
     public boolean createUser(User user) throws Exception {
@@ -32,7 +37,8 @@ public class UserController implements IUserController {
     }
     public boolean updateUser(User user) throws Exception {
         if (checkExistsUser(user.getName())) {
-            users.replace(user.getUsername(), user);
+//            users.replace(user.getUsername(), user);
+            users.put(user.getName(), user);
             try {
                 gravador.SaveUsers(this.users);
             }

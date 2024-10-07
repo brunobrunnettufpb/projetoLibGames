@@ -7,7 +7,6 @@ import br.ufpb.dcx.libGames.Models.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 public class LibGamesProgramGUI {
     private JFrame dialog = new JFrame("Biblioteca de Jogos");

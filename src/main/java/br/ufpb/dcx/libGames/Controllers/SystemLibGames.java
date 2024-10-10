@@ -22,7 +22,7 @@ public class SystemLibGames implements ISystemLibGames {
     }
     public boolean userCreate(String name, String username, double saldo) throws Exception {
         if (users.getUser(username) == null) {
-            users.createUser(new User(name, username, new Value(saldo, "BRL", "R$")));
+            users.createUser(new User(username, name, new Value(saldo, "BRL", "R$")));
             return true;
         }
 
@@ -48,6 +48,9 @@ public class SystemLibGames implements ISystemLibGames {
     }
     public int getQtdGames() {
         return games.getQtdGames();
+    }
+    public int getQtdUsers() {
+        return users.getQtdUsers();
     }
 
     public void userReport() {

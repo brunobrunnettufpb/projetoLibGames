@@ -80,6 +80,9 @@ public class UserController implements IUserController {
         return true;
     }
 
+    public int getQtdUsers() {
+        return this.users.size();
+    }
 
     public boolean checkExistsUser(String username) {
         return users.get(username) != null;

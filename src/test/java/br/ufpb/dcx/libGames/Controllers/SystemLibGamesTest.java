@@ -2,10 +2,22 @@ package br.ufpb.dcx.libGames.Controllers;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+
 public class SystemLibGamesTest {
     @Test
     public void TestarCadadastroUsuario() {
-        // TODO: Cadastrar usuário.
+        SystemLibGames sistema = new SystemLibGames();
+
+        assertEquals(3, sistema.getQtdGames()); // Verifica se tem 3 jogos
+        try {
+            sistema.userCreate("Joao", "jo22", 50);
+//            assertEquals(sistema.get);
+        }
+        catch (Exception ex) {
+
+        }
     }
 
     @Test

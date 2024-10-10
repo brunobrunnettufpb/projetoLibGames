@@ -1,5 +1,6 @@
 package br.ufpb.dcx.libGames.Controllers;
 
+import br.ufpb.dcx.libGames.Models.Game;
 import br.ufpb.dcx.libGames.Models.User;
 import org.junit.jupiter.api.Test;
 
@@ -41,11 +42,25 @@ public class SystemLibGamesTest {
     @Test
     public void TestarCompraDeJogo() {
         // TODO: Compra de jogo.
-    }
+        File file = new File(GravadorDeDadosController.USERSFILE);
+        if (file.exists()) file.delete();
 
-    @Test
-    public void TestarPersistencia() {
-        // TODO: Cadastrar usuário, comprar jogo e persistir os dados.
+        SystemLibGames sistema = new SystemLibGames();
+
+        try {
+            sistema.userCreate("João", "jo22", 50);
+            User joao = sistema.getUser("jo22");
+            Game game = sistema.getGame("Witcher 3");
+            sistema.gameBuy(joao, game);
+            joao = sistema.getUser("jo22"); // Atualiza pra poder verificar
+            assertNull(joao.getGame("Witcher 3"));
+        }
+        catch (Exception ex) {
+
+        }
+
+
+        file.delete();
     }
 
     @Test

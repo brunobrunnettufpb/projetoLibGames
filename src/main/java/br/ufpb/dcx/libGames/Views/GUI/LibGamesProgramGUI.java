@@ -167,6 +167,15 @@ public class LibGamesProgramGUI {
     private JMenuItem menuUsuarioBuscar;
     private JMenuItem menuUsuarioApagar;
 
+    private JMenu menuJogo;
+    private JMenuItem menuJogoAnterior;
+    private JMenuItem menuJogoProximo;
+
+    private JMenu menuCompra;
+    private JMenuItem menuCompraCompra;
+    private JMenuItem menuCompraReembolso;
+
+
 
     private JPanel leftSide;
     private JPanel top;

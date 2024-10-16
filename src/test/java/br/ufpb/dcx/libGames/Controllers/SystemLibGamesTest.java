@@ -48,6 +48,9 @@ public class SystemLibGamesTest {
     @Test
     void TestaCadastrarJogos() {
         assertEquals(3, sistema.getQtdGames()); // Verifica se tem os 3 jogos cadastrados no sistema.
+        assertNotNull(sistema.getGame("Witcher 3"));
+        assertNotNull(sistema.getGame("Divinity 2"));
+        assertNotNull(sistema.getGame("Baldurs Gate 3"));
     }
 
     @Test

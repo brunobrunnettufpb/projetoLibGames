@@ -20,6 +20,9 @@ public class LibGamesProgramGUI {
         createLayout();
     }
 
+    /**
+     * Cria e define o layout da janela principal.
+     */
     public void createDialog() {
         dialog.setLayout(new BorderLayout(0,25));
         dialog.setSize(600, 600);
@@ -34,7 +37,7 @@ public class LibGamesProgramGUI {
     }
 
     /**
-     * Cria a barra de menus iterando os valores de menuNames e menuItemNames e já define no dialog
+     * Cria e organiza a Barra de Menu da janela.
      */
     private void createMenuBar() {
         menuBar = new JMenuBar();
@@ -81,6 +84,10 @@ public class LibGamesProgramGUI {
         dialog.setJMenuBar(menuBar);
     }
 
+    /**
+     * Create, define e organiza o layout da janela com seus componentes.
+     * Define os botões, cores e demais valores do front end.
+     */
     private void createLayout() {
         top = new JPanel();
         top.setBackground(Color.darkGray);
@@ -177,6 +184,11 @@ public class LibGamesProgramGUI {
         }
     }
 
+    /**
+     * Busca o caminho da imagem do jogo passado.
+     * @param game Nome do jogo
+     * @return Caminho da imagem: diretório + arquivo + extensão
+     */
     private String getImgPath(String game) {
         return "./imgs/"+game+".jpg";
     }
@@ -238,6 +250,13 @@ public class LibGamesProgramGUI {
     ///////////
     // EVENTS
     ///////////
+
+    /**
+     * Cadastra o usuário no sistema.
+     * Abre uma sequência de dialogs para passar os dados: Username, Nome e Saldo Inicial.
+     * Verifica se o usuário já existe no sistema.
+     * Em seguida preenche os componentes com os dados do usuário.
+     */
     private void cadastrarUsuario() {
         try {
             String username = JOptionPane.showInputDialog("Digite um username:");
@@ -251,9 +270,6 @@ public class LibGamesProgramGUI {
                 return;
             }
             double balance = Double.parseDouble(JOptionPane.showInputDialog("Digite o saldo inicial deste usuário"));
-            System.out.println("username -> "+username);
-            System.out.println("name -> "+name);
-            System.out.println("balance -> "+balance);
             system.userCreate(username, name, balance);
             showUser(system.getUser(username));
         }
@@ -262,6 +278,10 @@ public class LibGamesProgramGUI {
         }
     }
 
+    /**
+     * Busca o usuário com o username fornecido no dialog.
+     * Em seguida preenche os componentes com os dados do usuário.
+     */
     private void buscarUsuario() {
         try {
             String username = JOptionPane.showInputDialog("Digite o username do usuário:");
@@ -282,6 +302,10 @@ public class LibGamesProgramGUI {
         }
     }
 
+    /**
+     * Apaga o usuário de username fornecido no dialog.
+     * Em seguida limpa os componentes da janela.
+     */
     private void apagarUsuario() {
         try {
             String username = tBoxUserUsername.getText();
@@ -303,9 +327,19 @@ public class LibGamesProgramGUI {
             JOptionPane.showMessageDialog(null, "Erro: \n\n"+ex.getMessage());
         }
     }
+
+    /**
+     * Exibe um dialog contendo uma lista (String) com todos os usernames cadastrados no sistema.
+     */
     private void listarUsuarios() {
         JOptionPane.showMessageDialog(null, "Usernames cadastrados: "+system.getAllUsers());
     }
+
+    /**
+     * Event Controller do botão Comprar
+     * Realiza a compra do jogo selecionado e adiciona à lista de jogos do usuário selecionado (caso haja saldo suficiente).
+     * Em seguida atualiza os componentes com os dados do usuário.
+     */
     private void btnComprar_Click() {
         try {
             User selectedUser = system.getUser(tBoxUserUsername.getText());
@@ -329,9 +363,19 @@ public class LibGamesProgramGUI {
             JOptionPane.showMessageDialog(null, "Erro:\n\n"+ex.getMessage());
         }
     }
+
+    /**
+     * Event controller do botão Sair.
+     * Sai do sistema e fecha a janela.
+     */
     private void btnSair_Click() {
         System.exit(0);
     }
+
+    /**
+     * Event controller do botão Anterior.
+     * Seleciona o jogo anterior da lista, caso haja.
+     */
     private void btnPrev_Click() {
         try {
             int id = 2;
@@ -355,6 +399,11 @@ public class LibGamesProgramGUI {
 
         }
     }
+
+    /**
+     * Event Controller do botão Próximo.
+     * Seleciona o próximo jogo da lista, caso haja.
+     */
     private void btnNext_Click() {
         try {
             int id = 0;
@@ -382,6 +431,11 @@ public class LibGamesProgramGUI {
     ///////////////
     // CONTROLLERS
     ///////////////
+
+    /**
+     * Atualiza os componentes da janela com todos os dados do usuário passado.
+     * @param user Usuário cadastrado no sistema.
+     */
     private void showUser(User user) {
         clearUser();
         this.tBoxUserName.setText(user.getName());
@@ -392,18 +446,30 @@ public class LibGamesProgramGUI {
             cBoxUserGames.addItem(game.getName());
         }
     }
+
+    /**
+     * Limpa todos os componentes referentes ao usuário.
+     */
     private void clearUser() {
         this.tBoxUserName.setText("");
         this.tBoxUserBalance.setText("");
         this.cBoxUserGames.removeAllItems();
-
     }
+
+    /**
+     * Preenche todos os componentes referentes ao jogo selecionado.
+     * @param game Jogo cadastrado no sistema.
+     */
     private void showGame(Game game) {
         clearGame();
         this.tBoxGameName.setText(game.getName());
         this.tBoxGameValue.setText(String.format("%s%.2f", game.getPrice().getSymbol(), game.getPrice().getValue()));
         this.labGameImg.setIcon(new ImageIcon(new ImageIcon(getImgPath(game.getName())).getImage().getScaledInstance(190,190, Image.SCALE_SMOOTH)));
     }
+
+    /**
+     * Limpa todos os componentes referentes ao jogo.
+     */
     private void clearGame() {
         this.tBoxGameName.setText("");
         this.tBoxGameValue.setText("");

@@ -25,16 +25,10 @@ public class SystemLibGamesTest {
     void TestarCadadastroUsuario() {
         try {
             sistema.userCreate("jo22", "João", 50); // Cadastra no sistema
-            User jo = sistema.getUser("jo22"); // Pega para checar se cadastrou correto
-            assertEquals("João", jo.getName()); // Checa se o nome é João
-            assertEquals("jo22", jo.getUsername()); // Checa se o username é jo22
-            assertEquals(50, jo.getBalance().getValue()); // Checa se o saldo é R$50
+            assertEquals(1, sistema.getQtdUsers()); // Checa se cadastrou os 2 no teste anterior.
 
             sistema.userCreate("mar80", "Maria", 100); // Cadastra no sistema
-            User maria = sistema.getUser("mar80"); // Pega para checar se cadastrou correto
-            assertEquals("Maria", maria.getName()); // Checa se o nome é Maria
-            assertEquals("mar80", maria.getUsername()); // Checa se o username é mar80
-            assertEquals(100, maria.getBalance().getValue()); // Checa se o saldo é R$100
+            assertEquals(2, sistema.getQtdUsers()); // Checa se cadastrou os 2 no teste anterior.
         }
         catch (Exception ex) {
         }
@@ -42,7 +36,16 @@ public class SystemLibGamesTest {
 
     @Test
     void TestarBuscarUsuario() {
-        assertEquals(2, sistema.getQtdUsers()); // Checa se cadastrou os 2 no teste anterior.
+        User jo = sistema.getUser("jo22"); // Pega para checar se cadastrou correto
+        assertEquals("João", jo.getName()); // Checa se o nome é João
+        assertEquals("jo22", jo.getUsername()); // Checa se o username é jo22
+        assertEquals(50, jo.getBalance().getValue()); // Checa se o saldo é R$50
+
+
+        User maria = sistema.getUser("mar80"); // Pega para checar se cadastrou correto
+        assertEquals("Maria", maria.getName()); // Checa se o nome é Maria
+        assertEquals("mar80", maria.getUsername()); // Checa se o username é mar80
+        assertEquals(100, maria.getBalance().getValue()); // Checa se o saldo é R$100
     }
 
     @Test

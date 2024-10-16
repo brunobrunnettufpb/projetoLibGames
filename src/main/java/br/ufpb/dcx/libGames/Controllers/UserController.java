@@ -6,7 +6,9 @@ import br.ufpb.dcx.libGames.Models.User;
 import br.ufpb.dcx.libGames.Models.Value;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserController implements IUserController {
@@ -23,8 +25,8 @@ public class UserController implements IUserController {
     }
 
     public boolean createUser(User user) throws Exception {
-        if (!checkExistsUser(user.getName())) {
-            users.put(user.getName(), user);
+        if (!checkExistsUser(user.getUsername())) {
+            users.put(user.getUsername(), user);
             try {
                 gravador.SaveUsers(this.users);
             }
@@ -36,9 +38,8 @@ public class UserController implements IUserController {
         throw new UsuarioJaExisteException("Usuário já cadastrado!");
     }
     public boolean updateUser(User user) throws Exception {
-        if (checkExistsUser(user.getName())) {
-//            users.replace(user.getUsername(), user);
-            users.put(user.getName(), user);
+        if (checkExistsUser(user.getUsername())) {
+            users.put(user.getUsername(), user);
             try {
                 gravador.SaveUsers(this.users);
             }
@@ -51,8 +52,8 @@ public class UserController implements IUserController {
         throw new UsuarioNaoExisteException("Usuário não cadastrado!");
     }
     public boolean deleteUser(User user) throws UsuarioNaoExisteException {
-        if (checkExistsUser(user.getName())) {
-            users.remove(user.getName());
+        if (checkExistsUser(user.getUsername())) {
+            users.remove(user.getUsername());
             return true;
         }
         throw new UsuarioNaoExisteException("Usuário não cadastrado!");
@@ -61,22 +62,25 @@ public class UserController implements IUserController {
     public User getUser(String username) {
         return users.get(username);
     }
+    public List<User> getAllUsers() {
+        return new ArrayList<>(this.users.values());
+    }
 
     public boolean addFund(User user, Value value) throws UsuarioNaoExisteException {
-        if (!checkExistsUser(user.getName())) {
+        if (!checkExistsUser(user.getUsername())) {
             throw new UsuarioNaoExisteException("Usuário não cadastrado!");
         }
 
-        users.get(user.getName()).addBalance(value);
+        users.get(user.getUsername()).addBalance(value);
         return true;
     }
 
     public boolean remFund(User user, Value value) throws UsuarioNaoExisteException {
-        if (!checkExistsUser(user.getName())) {
+        if (!checkExistsUser(user.getUsername())) {
             throw new UsuarioNaoExisteException("Usuário não cadastrado!");
         }
 
-        users.get(user.getName()).remBalance(value);
+        users.get(user.getUsername()).remBalance(value);
         return true;
     }
 

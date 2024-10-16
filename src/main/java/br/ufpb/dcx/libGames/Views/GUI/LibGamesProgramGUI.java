@@ -51,12 +51,32 @@ public class LibGamesProgramGUI {
         menuUsuarioBuscar.addActionListener(a -> buscarUsuario());
         menuUsuarioApagar = new JMenuItem("Apagar");
         menuUsuarioApagar.addActionListener(a -> apagarUsuario());
+        menuUsuarioListar = new JMenuItem("Listar");
+        menuUsuarioListar.addActionListener(a -> listarUsuarios());
         menuUsuario.add(menuUsuarioCadastrar);
         menuUsuario.add(menuUsuarioBuscar);
         menuUsuario.add(menuUsuarioApagar);
+        menuUsuario.add(menuUsuarioListar);
+
+        menuJogo = new JMenu("Jogo");
+        menuJogoAnterior = new JMenuItem("Anterior");
+        menuJogoAnterior.addActionListener(a -> btnPrev_Click());
+        menuJogoProximo = new JMenuItem("Próximo");
+        menuJogoProximo.addActionListener(a -> btnNext_Click());
+        menuJogo.add(menuJogoAnterior);
+        menuJogo.add(menuJogoProximo);
+
+        menuCompra = new JMenu("Compra");
+        menuCompraCompra = new JMenuItem("Comprar");
+        menuCompraCompra.addActionListener(a -> btnComprar_Click());
+        menuCompraReembolso = new JMenuItem("Reembolso");
+        menuCompra.add(menuCompraCompra);
+        menuCompra.add(menuCompraReembolso);
 
         menuBar.add(menuArquivo);
         menuBar.add(menuUsuario);
+        menuBar.add(menuJogo);
+        menuBar.add(menuCompra);
 
         dialog.setJMenuBar(menuBar);
     }
@@ -77,20 +97,25 @@ public class LibGamesProgramGUI {
 
             // Lado esquerdo
             leftSide = new JPanel();
-            leftSide.setLayout(new GridLayout(3,2));
+            leftSide.setLayout(new GridLayout(4,2));
             leftSide.setBackground(Color.gray);
 
-            labUserName1 = new JLabel("Usuário:", JLabel.CENTER);
+            labUserName = new JLabel("Usuário:", JLabel.CENTER);
             tBoxUserName = new JTextField();
             tBoxUserName.setEditable(false);
-            labUserBalance1 = new JLabel("Saldo:", JLabel.CENTER);
+            labUserUsername = new JLabel("Username:", JLabel.CENTER);
+            tBoxUserUsername = new JTextField();
+            tBoxUserUsername.setEditable(false);
+            labUserBalance = new JLabel("Saldo:", JLabel.CENTER);
             tBoxUserBalance = new JTextField();
             tBoxUserBalance.setEditable(false);
             labUserGames = new JLabel("Jogos:", JLabel.CENTER);
             cBoxUserGames = new JComboBox<>();
-            leftSide.add(labUserName1);
+            leftSide.add(labUserName);
             leftSide.add(tBoxUserName);
-            leftSide.add(labUserBalance1);
+            leftSide.add(labUserUsername);
+            leftSide.add(tBoxUserUsername);
+            leftSide.add(labUserBalance);
             leftSide.add(tBoxUserBalance);
             leftSide.add(labUserGames);
             leftSide.add(cBoxUserGames);
@@ -160,12 +185,15 @@ public class LibGamesProgramGUI {
     // COMPONENTES
     ///////////////
     private JMenuBar menuBar;
+
     private JMenu menuArquivo;
     private JMenuItem menuArquivoSair;
+
     private JMenu menuUsuario;
     private JMenuItem menuUsuarioCadastrar;
     private JMenuItem menuUsuarioBuscar;
     private JMenuItem menuUsuarioApagar;
+    private JMenuItem menuUsuarioListar;
 
     private JMenu menuJogo;
     private JMenuItem menuJogoAnterior;
@@ -175,8 +203,6 @@ public class LibGamesProgramGUI {
     private JMenuItem menuCompraCompra;
     private JMenuItem menuCompraReembolso;
 
-
-
     private JPanel leftSide;
     private JPanel top;
     private JPanel body;
@@ -185,12 +211,12 @@ public class LibGamesProgramGUI {
     private JPanel rightSide1;
     private JPanel rightSide2;
 
-
     private ImageIcon gameImg;
 
     private JLabel title;
-    private JLabel labUserName1;
-    private JLabel labUserBalance1;
+    private JLabel labUserName;
+    private JLabel labUserUsername;
+    private JLabel labUserBalance;
     private JLabel labUserGames;
     private JLabel labGameImg;
     private JLabel labGameName;
@@ -199,6 +225,7 @@ public class LibGamesProgramGUI {
     private JComboBox<String> cBoxUserGames;
 
     private JTextField tBoxUserName;
+    private JTextField tBoxUserUsername;
     private JTextField tBoxUserBalance;
     private JTextField tBoxGameName;
     private JTextField tBoxGameValue;
@@ -213,19 +240,35 @@ public class LibGamesProgramGUI {
     ///////////
     private void cadastrarUsuario() {
         try {
+            String username = JOptionPane.showInputDialog("Digite um username:");
+            if (username == null) {
+                JOptionPane.showMessageDialog(null,"Operação cancelada!");
+                return;
+            }
             String name = JOptionPane.showInputDialog("Digite o nome real do usuário:");
-            String username = JOptionPane.showInputDialog("Digite um nome de usuário:");
+            if (name == null) {
+                JOptionPane.showMessageDialog(null,"Operação cancelada!");
+                return;
+            }
             double balance = Double.parseDouble(JOptionPane.showInputDialog("Digite o saldo inicial deste usuário"));
-            system.userCreate(name, username, balance);
+            System.out.println("username -> "+username);
+            System.out.println("name -> "+name);
+            System.out.println("balance -> "+balance);
+            system.userCreate(username, name, balance);
             showUser(system.getUser(username));
         }
         catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro: \n\n"+ex.getMessage());
         }
     }
+
     private void buscarUsuario() {
         try {
-            String username = JOptionPane.showInputDialog("Digite o nome de usuário:");
+            String username = JOptionPane.showInputDialog("Digite o username do usuário:");
+            if (username == null) {
+                JOptionPane.showMessageDialog(null,"Operação cancelada!");
+                return;
+            }
             User found = system.getUser(username);
             if (found != null) {
                 showUser(found);
@@ -238,9 +281,10 @@ public class LibGamesProgramGUI {
             JOptionPane.showMessageDialog(null, "Erro: \n\n"+ex.getMessage());
         }
     }
+
     private void apagarUsuario() {
         try {
-            String username = tBoxUserName.getText();
+            String username = tBoxUserUsername.getText();
             if (username.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum usuário selecionado!");
                 return;
@@ -259,9 +303,12 @@ public class LibGamesProgramGUI {
             JOptionPane.showMessageDialog(null, "Erro: \n\n"+ex.getMessage());
         }
     }
+    private void listarUsuarios() {
+        JOptionPane.showMessageDialog(null, "Usernames cadastrados: "+system.getAllUsers());
+    }
     private void btnComprar_Click() {
         try {
-            User selectedUser = system.getUser(tBoxUserName.getText());
+            User selectedUser = system.getUser(tBoxUserUsername.getText());
 
             if (selectedUser == null) {
                 JOptionPane.showMessageDialog(null, "Erro:\n\nSelecione um USUÁRIO!");
@@ -338,6 +385,7 @@ public class LibGamesProgramGUI {
     private void showUser(User user) {
         clearUser();
         this.tBoxUserName.setText(user.getName());
+        this.tBoxUserUsername.setText(user.getUsername());
         this.tBoxUserBalance.setText(String.format("%s%.2f", user.getBalance().getSymbol(), user.getBalance().getValue()));
 
         for(Game game: user.getGames().values()) {

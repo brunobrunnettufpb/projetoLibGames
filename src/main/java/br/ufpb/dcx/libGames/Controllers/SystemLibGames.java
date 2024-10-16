@@ -8,6 +8,8 @@ import br.ufpb.dcx.libGames.Models.Game;
 import br.ufpb.dcx.libGames.Models.User;
 import br.ufpb.dcx.libGames.Models.Value;
 
+import java.util.List;
+
 public class SystemLibGames implements ISystemLibGames {
     private UserController users;
     private BuyController boughts;
@@ -17,10 +19,8 @@ public class SystemLibGames implements ISystemLibGames {
         users = new UserController();
         boughts = new BuyController();
         games = new GameController();
-
-
     }
-    public boolean userCreate(String name, String username, double saldo) throws Exception {
+    public boolean userCreate(String username, String name, double saldo) throws Exception {
         if (users.getUser(username) == null) {
             users.createUser(new User(username, name, new Value(saldo, "BRL", "R$")));
             return true;
@@ -31,7 +31,7 @@ public class SystemLibGames implements ISystemLibGames {
 
     public boolean userDelete(String username) throws UsuarioNaoExisteException {
         if (users.getUser(username) != null) {
-            users.deleteUser(new User("", username, new Value(0, "BRL", "R$")));
+            users.deleteUser(new User(username, "", new Value(0, "BRL", "R$")));
             return true;
         }
         throw new UsuarioNaoExisteException("Usuário não cadastrado!");
@@ -52,13 +52,21 @@ public class SystemLibGames implements ISystemLibGames {
     public int getQtdUsers() {
         return users.getQtdUsers();
     }
+    public String getAllUsers() {
+        List<User> users = this.users.getAllUsers();
+        String usersStr = "";
+        for (User user: users) {
+            usersStr += user.getUsername() + ",";
+        }
+        return usersStr;
+    }
 
     public void userReport() {
         //TODO: Função para exibir tudo o que o usuário tem.
     }
 
     public boolean gameBuy(User user, Game game) throws Exception {
-        if (users.checkExistsUser(user.getUsername())) {
+        if (!users.checkExistsUser(user.getUsername())) {
             throw new UsuarioNaoExisteException("Usuário não cadastrado!");
         }
 

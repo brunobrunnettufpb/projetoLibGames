@@ -25,10 +25,10 @@ public class SystemLibGamesTest {
     void TestarCadadastroUsuario() {
         try {
             sistema.userCreate("jo22", "João", 50); // Cadastra no sistema
-            assertEquals(1, sistema.getQtdUsers()); // Checa se cadastrou os 2 no teste anterior.
+            assertEquals(1, sistema.getQtdUsers()); // Checa se cadastrou anterior.
 
             sistema.userCreate("mar80", "Maria", 100); // Cadastra no sistema
-            assertEquals(2, sistema.getQtdUsers()); // Checa se cadastrou os 2 no teste anterior.
+            assertEquals(2, sistema.getQtdUsers()); // Checa se cadastrou anterior.
         }
         catch (Exception ex) {
         }
@@ -49,7 +49,7 @@ public class SystemLibGamesTest {
     }
 
     @Test
-    void TestaCadastrarJogos() {
+    void TestarCadastrarJogos() {
         assertEquals(3, sistema.getQtdGames()); // Verifica se tem os 3 jogos cadastrados no sistema.
         assertNotNull(sistema.getGame("Witcher 3"));
         assertNotNull(sistema.getGame("Divinity 2"));
@@ -67,8 +67,28 @@ public class SystemLibGamesTest {
             joao = sistema.getUser("jo22"); // Atualiza pra poder verificar a compra.
 
             assertEquals(1, joao.getGames().size());
+
+            game = sistema.getGame("Divinity 2");
+            sistema.gameBuy(joao, game);
+            joao = sistema.getUser("jo22"); // Atualiza pra poder verificar a compra.
+
+            assertEquals(1, joao.getGames().size());
         }
         catch (Exception ex) {
+        }
+    }
+
+    @Test
+    void TestarDeletarUsuario() {
+        assertEquals(2, sistema.getQtdUsers()); // Checa os que cadastrou anteriormente.
+        try {
+            sistema.userDelete("mar80");
+            assertEquals(1, sistema.getQtdUsers()); // Checa se removeu.
+            sistema.userDelete("jo22");
+            assertEquals(0, sistema.getQtdUsers()); // Checa se removeu.
+        }
+        catch (Exception ex) {
+
         }
     }
 }

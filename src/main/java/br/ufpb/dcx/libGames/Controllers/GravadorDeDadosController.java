@@ -17,9 +17,6 @@ public class GravadorDeDadosController {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(USERSFILE))) {
             out.writeObject(dados);
         }
-        catch (Exception ex) {
-            throw ex;
-        }
     }
 
     public void SaveGames(Map<String, Game> dados) throws Exception {

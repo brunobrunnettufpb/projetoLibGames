@@ -40,7 +40,7 @@ public class GameController {
             }
         }
 
-        return null;
+        return (Game) this.games.values().stream().filter(game -> game.getId() == id);
     }
 
     public int getQtdGames() {

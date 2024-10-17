@@ -396,7 +396,8 @@ public class LibGamesProgramGUI {
             showGame(selectedGame);
         }
         catch (Exception ex) {
-
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -424,7 +425,8 @@ public class LibGamesProgramGUI {
             showGame(selectedGame);
         }
         catch (Exception ex) {
-
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 

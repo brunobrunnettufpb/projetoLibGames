@@ -27,12 +27,8 @@ public class UserController implements IUserController {
     public boolean createUser(User user) throws Exception {
         if (!checkExistsUser(user.getUsername())) {
             users.put(user.getUsername(), user);
-            try {
-                gravador.SaveUsers(this.users);
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
+            gravador.SaveUsers(this.users);
+
             return true;
         }
         throw new UsuarioJaExisteException("Usuário já cadastrado!");
@@ -40,12 +36,7 @@ public class UserController implements IUserController {
     public boolean updateUser(User user) throws Exception {
         if (checkExistsUser(user.getUsername())) {
             users.put(user.getUsername(), user);
-            try {
-                gravador.SaveUsers(this.users);
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
+            gravador.SaveUsers(this.users);
 
             return true;
         }

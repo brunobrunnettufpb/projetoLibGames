@@ -23,26 +23,17 @@ public class GravadorDeDadosController {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(GAMESFILE))) {
             out.writeObject(dados);
         }
-        catch (Exception ex) {
-            throw ex;
-        }
     }
 
     public Map<String, User> LoadUsers() throws Exception {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(USERSFILE))) {
             return (Map<String, User>) in.readObject();
         }
-        catch (Exception ex) {
-            throw ex;
-        }
     }
 
     public Map<String, Game> LoadGames() throws Exception {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(GAMESFILE))) {
             return (Map<String, Game>) in.readObject();
-        }
-        catch (Exception ex) {
-            throw ex;
         }
     }
 }

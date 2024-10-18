@@ -34,12 +34,6 @@ public class GameController {
     }
 
     public Game getGame(int id) {
-//        for (Game game: games.values()) {
-//            if (game.getId() == id) {
-//                return game;
-//            }
-//        }
-
         return this.games.values().stream().filter(game -> game.getId() == id).findFirst().orElse(null);
     }
 
